@@ -9,20 +9,14 @@ import scala.annotation.tailrec
 
 object Main extends Runner {
 
-  case class State(ones: Seq[Int], total: Int) {
+  case class State(counters: Seq[Digits]) extends AnyVal {
 
     def update(line: String): State =
-      State(
-        line.zipAll(ones, '1', 0).map {
-          case ('1', counter) => counter + 1
-          case (_, counter)   => counter
-        },
-        total + 1
-      )
+      State(counters.zipAll(line, Digits(0, 0), '-').map { case (counter, char) => counter.update(char) })
 
-    def gammaRate: Int = Integer.parseInt(ones.map(counter => if (total - counter < counter) '1' else '0').mkString, 2)
+    def gammaRate: Int = Integer.parseInt(counters.map(_.mostCommonValue('1')).mkString, 2)
 
-    def epsilonRate: Int = ~gammaRate & (-1 >>> (32 - ones.size))
+    def epsilonRate: Int = ~gammaRate & (-1 >>> (32 - counters.size))
 
     def powerConsumption: Long = gammaRate * epsilonRate
 
@@ -51,7 +45,7 @@ object Main extends Runner {
 
   override def partOne(input: ZStream[Any, Throwable, String]): RIO[ZEnv, Unit] =
     input
-      .fold(State(Seq.empty, 0))(_.update(_))
+      .fold(State(Seq.empty))(_.update(_))
       .tap(state => putStrLn(state.powerConsumption.toString))
       .unit
 
