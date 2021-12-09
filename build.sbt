@@ -24,3 +24,4 @@ addCommandAlias("day5", """set Compile / selectMainClass := Some("_05.Main"); ru
 addCommandAlias("day6", """set Compile / selectMainClass := Some("_06.Main"); run""")
 addCommandAlias("day7", """set Compile / selectMainClass := Some("_07.Main"); run""")
 addCommandAlias("day8", """set Compile / selectMainClass := Some("_08.Main"); run""")
+addCommandAlias("day9", """set Compile / selectMainClass := Some("_09.Main"); run""")
