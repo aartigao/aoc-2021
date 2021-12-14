@@ -35,11 +35,11 @@ object Main extends Runner {
 
   }
 
-  private def parseDraw(line: String): Draw = Draw(line.split(',').map(_.toInt))
+  private def parseDraw(line: String): Draw = Draw(line.split(',').view.map(_.toInt).toIndexedSeq)
 
   private def parseBoards(lines: Seq[String]): Seq[Board] = {
 
-    def parseBoardLine(line: String): Seq[Int] = line.split("\\s+").filter(_.nonEmpty).map(_.toInt)
+    def parseBoardLine(line: String): Seq[Int] = line.split("\\s+").view.filter(_.nonEmpty).map(_.toInt).toIndexedSeq
 
     lines
       .grouped(5)

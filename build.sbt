@@ -16,6 +16,8 @@ libraryDependencies ++= Seq(
   "org.ekrich" %%% "sjavatime"   % "1.1.5"
 )
 
+scalacOptions += "-deprecation"
+
 addCommandAlias("day1", """set Compile / selectMainClass := Some("_01.Main"); run""")
 addCommandAlias("day2", """set Compile / selectMainClass := Some("_02.Main"); run""")
 addCommandAlias("day3", """set Compile / selectMainClass := Some("_03.Main"); run""")
