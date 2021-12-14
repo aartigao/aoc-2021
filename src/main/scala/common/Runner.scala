@@ -28,4 +28,15 @@ trait Runner extends App {
 
   def partTwo(input: ZStream[Any, Throwable, String]): RIO[ZEnv, Unit]
 
+  protected def occurrences[K](as: Iterable[K]): Map[K, Long] = as.groupMapReduce(identity)(_ => 1L)(_ + _)
+
+  protected def updateSum[K, V: Numeric](map: Map[K, V], k: K, v: V): Map[K, V] =
+    update(map, k, v, implicitly[Numeric[V]].plus)
+
+  protected def update[K, V](map: Map[K, V], k: K, v: V, merge: (V, V) => V): Map[K, V] =
+    map.updatedWith(k) {
+      case Some(value) => Some(merge(value, v))
+      case None        => Some(v)
+    }
+
 }
